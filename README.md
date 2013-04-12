@@ -6,6 +6,7 @@ play with [SRTM](http://en.wikipedia.org/wiki/Shuttle_Radar_Topography_Mission) 
 ### setup
 
 * clone this repo `git clone git@github.com:nomilous/srtm.git && cd srtm`
+* install required node modules `npm install`
 * [download and unzip the tiles](https://github.com/nomilous/srtm/tree/master/tiles)
 
 ```bash
