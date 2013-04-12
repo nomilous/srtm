@@ -1,0 +1,11 @@
+#!/usr/bin/env coffee
+
+require('nez').objective 'srtm',
+
+    category: 'Web Application'
+
+    description: """
+
+    play with SRTM terrain data
+
+    """, (requirement) -> 
