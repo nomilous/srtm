@@ -1,1 +1,2 @@
-//= require viewport
+//= require main_controller
+//= require client
