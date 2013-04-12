@@ -1,4 +1,4 @@
-app = angular.module 'SRTM', []
+app = angular.module 'SRTM', ['viewport']
 
 app.config ($routeProvider) -> 
 
