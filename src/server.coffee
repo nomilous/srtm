@@ -17,7 +17,13 @@ module.exports =
 
         app.get '/', (req, res) -> res.render 'index'
         app.get '/main_controller.html', (req, res) -> res.render 'main_controller'
-        app.get '/topology/:tile', (req, res) -> res.send topology.getTile req.params.tile
+
+        app.get '/topology/:tile', (req, res) -> 
+
+            topology.getTile root + '/tiles', req.params.tile, (error, tile) -> 
+
+                return res.send tile unless error
+                return res.send []
 
 
         http.createServer( app ).listen 3000, -> console.log 'http://localhost:3000'
