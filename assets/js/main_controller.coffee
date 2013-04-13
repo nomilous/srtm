@@ -4,24 +4,60 @@ namespace 'srtm'
 
 
         #
-        # insert a 'cube'
+        # fake topology data
         #
 
-        geometry = new THREE.CubeGeometry 200, 200, 200
+        tile = 
 
-        material = new THREE.MeshBasicMaterial
+            length: 500  # arbitrary 'real' length of side
+            count:  4    # count of readings along side
+            
+            elevations: [
 
-            color: 0xff0000
-            wireframe: true
+                100, 0, 0, 0
+                0,   0, 0, 0
+                0,   0, 0, 0
+                0,   0, 0, -100
 
+            ]
 
-        actorService.add
+        material = new THREE.LineBasicMaterial color: 0x000000
 
-            _id: 'cube'
+        step     = tile.length * 1.0 / tile.count
+        rowStart = -step * (tile.count - 1) / 2
+        colStart = rowStart
 
-            object: new THREE.Mesh geometry, material
+        #
+        # render as line for each row
+        # on the XZ plane (Y as elevation)
+        #
 
+        z = colStart
 
+        for row in [0..tile.count-1]
+
+            geometry = new THREE.Geometry()
+
+            x = rowStart
+
+            for col in [0..tile.count-1]
+
+                offset = row * tile.count  
+
+                height = tile.elevations[offset + col]
+
+                geometry.vertices.push new THREE.Vector3 x, height, z
+                
+                x += step
+
+            z += step
+
+            line = new THREE.Line geometry, material
+
+            actorService.add
+
+                _id: 'row' + row
+                object: line
 
 
         #
@@ -30,7 +66,4 @@ namespace 'srtm'
 
         animateService.animate -> 
 
-            cube = actorService.get 'cube'
-            cube.object.rotation.x += 0.01
-            cube.object.rotation.y += 0.02
 

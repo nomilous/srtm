@@ -64,9 +64,11 @@ FirstPersonService = ($log, sceneService) ->
             firstPerson.camera = new THREE[type] fov, aspect, near, far
 
             firstPerson.camera.position.z = 1000
+            firstPerson.camera.position.y = 400
 
 
-AnimateService = ($log, sceneService, actorService, firstPersonService) -> 
+
+AnimateService = ($log, sceneService, firstPersonService) -> 
 
     animate = _animate = 
 
