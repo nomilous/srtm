@@ -35,11 +35,13 @@ topology =
                 callback error, [] unless error.message == 'Trying to read beyond buffer length'
 
 
-            callback null
+            tiles[id] = 
 
-                length:     5000
+                length:     30000
                 count:      count
                 elevations: elevations
+
+            callback null, tiles[id]
 
 
             # callback null

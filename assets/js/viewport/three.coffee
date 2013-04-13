@@ -59,12 +59,12 @@ FirstPersonService = ($log, sceneService) ->
             fov    = parseInt attrs.fieldOfView || 75
             aspect = elem[0].clientWidth / elem[0].clientHeight
             near   = parseInt attrs.nearClip    || 1
-            far    = parseInt attrs.farClip     || 10000
+            far    = parseInt attrs.farClip     || 100000
 
             firstPerson.camera = new THREE[type] fov, aspect, near, far
 
-            firstPerson.camera.position.z = 1000
-            firstPerson.camera.position.y = 200
+            firstPerson.camera.position.z = -12000
+            firstPerson.camera.position.y = 2000
 
             firstPerson.camera.lookAt sceneService.scene.position
 
