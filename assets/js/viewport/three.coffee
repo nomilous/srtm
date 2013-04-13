@@ -5,7 +5,7 @@ ng = angular.module 'viewport', [], ($provide) ->
 # Scene (service factory)
 #
 
-Scene = ($log) -> 
+SceneService = ($log) -> 
 
     threeScene = new THREE.Scene()
 
@@ -44,23 +44,23 @@ Scene = ($log) ->
     return scene
 
 
-FirstPerson = ($log) -> 
+FirstPersonService = ($log, sceneService) -> 
 
     return {
 
-        init: -> 
+        init: (elem, attrs) -> 
 
             $log.info 'init FirstPerson with', arguments
 
     }
 
 
-ng.factory 'scene', Scene
-ng.factory 'firstPerson', FirstPerson
+ng.factory 'sceneService', SceneService
+ng.factory 'firstPersonService', FirstPersonService
 
 
 
-ng.directive 'threeViewport', ($log, scene, firstPerson) -> 
+ng.directive 'threeViewport', ($log, sceneService, firstPersonService) -> 
 
     restrict: 'E'
 
@@ -68,5 +68,6 @@ ng.directive 'threeViewport', ($log, scene, firstPerson) ->
 
         $log.info 'compile threeViewport'
 
-        scene.init elem, attrs
-        firstPerson.init elem, attrs
+        sceneService.init elem, attrs
+        firstPersonService.init elem, attrs
+
