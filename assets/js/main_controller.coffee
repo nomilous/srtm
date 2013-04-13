@@ -1,63 +1,46 @@
 namespace 'srtm'
 
-    MainController: ($log, actorService, animateService) -> 
+    MainController: ($log, $http, actorService, animateService) -> 
 
+        $http.get('/topology/S34E018').success (tile) -> 
 
-        #
-        # fake topology data
-        #
+            material = new THREE.LineBasicMaterial color: 0x000000
 
-        tile = 
+            step     = tile.length * 1.0 / tile.count
+            rowStart = -step * (tile.count - 1) / 2
+            colStart = rowStart
 
-            length: 500  # arbitrary 'real' length of side
-            count:  4    # count of readings along side
-            
-            elevations: [
+            #
+            # render as line for each row
+            # on the XZ plane (Y as elevation)
+            #
 
-                100, 0, 0, 0
-                0,   0, 0, 0
-                0,   0, 0, 0
-                0,   0, 0, -100
+            z = colStart
 
-            ]
+            for row in [0..tile.count-1]
 
-        material = new THREE.LineBasicMaterial color: 0x000000
+                geometry = new THREE.Geometry()
 
-        step     = tile.length * 1.0 / tile.count
-        rowStart = -step * (tile.count - 1) / 2
-        colStart = rowStart
+                x = rowStart
 
-        #
-        # render as line for each row
-        # on the XZ plane (Y as elevation)
-        #
+                for col in [0..tile.count-1]
 
-        z = colStart
+                    offset = row * tile.count  
 
-        for row in [0..tile.count-1]
+                    height = tile.elevations[offset + col]
 
-            geometry = new THREE.Geometry()
+                    geometry.vertices.push new THREE.Vector3 x, height, z
+                    
+                    x += step
 
-            x = rowStart
+                z += step
 
-            for col in [0..tile.count-1]
+                line = new THREE.Line geometry, material
 
-                offset = row * tile.count  
+                actorService.add
 
-                height = tile.elevations[offset + col]
-
-                geometry.vertices.push new THREE.Vector3 x, height, z
-                
-                x += step
-
-            z += step
-
-            line = new THREE.Line geometry, material
-
-            actorService.add
-
-                _id: 'row' + row
-                object: line
+                    _id: 'row' + row
+                    object: line
 
 
         #
