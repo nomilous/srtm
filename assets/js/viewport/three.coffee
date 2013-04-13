@@ -17,16 +17,13 @@ SceneService = ($log) ->
 
         init: (elem, attrs) -> 
 
-            $log.info 'init Scene with', arguments
-
-
             #
             # set renderer type from directive
             # 
-            # <three-viewport renderer="CanvasRenderer" /> 
+            # <three-viewport renderer-type="CanvasRenderer" /> 
             #
 
-            type = attrs.renderer || 'CanvasRenderer'
+            type = attrs.rendererType || 'CanvasRenderer'
             scene.renderer = new THREE[type]()
 
 
@@ -46,18 +43,41 @@ SceneService = ($log) ->
 
 FirstPersonService = ($log, sceneService) -> 
 
-    return {
+    firstPerson = _firstPerson =
 
         init: (elem, attrs) -> 
 
-            $log.info 'init FirstPerson with', arguments
+            #
+            # TODO: different cams have different construction args
+            #
 
-    }
+            type   = attrs.cameraType  || 'PerspectiveCamera'
+            fov    = parseInt attrs.fieldOfView || 75
+            aspect = elem[0].clientWidth / elem[0].clientHeight
+            near   = parseInt attrs.nearClip    || 1
+            far    = parseInt attrs.farClip     || 10000
+
+            $log.info 'init camera:'
+
+                type: type
+                fov: fov
+                aspect: aspect
+                nearClip: near 
+                farClip: far
+
+            firstPerson.camera = new THREE[type] fov, aspect, near, far
+
+            #
+            # insert camera into scene
+            #
+
+            sceneService.add firstPerson.camera
+
+    return firstPerson
 
 
 ng.factory 'sceneService', SceneService
 ng.factory 'firstPersonService', FirstPersonService
-
 
 
 ng.directive 'threeViewport', ($log, sceneService, firstPersonService) -> 
