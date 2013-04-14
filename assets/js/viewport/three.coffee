@@ -63,8 +63,8 @@ FirstPersonService = ($log, sceneService) ->
 
             firstPerson.camera = new THREE[type] fov, aspect, near, far
 
-            firstPerson.camera.position.z = -12000
-            firstPerson.camera.position.y = 2000
+            firstPerson.camera.position.z = 1200
+            firstPerson.camera.position.y = -5000
 
             firstPerson.camera.lookAt sceneService.scene.position
 
